@@ -403,7 +403,7 @@ function update_cached_urls(set_timer) {
     }
 
     if (set_timer){
-        setTimeout("update_cached_urls(true)", update_url_cache_timer);
+        setTimeout(function(){update_cached_urls(true)}, update_url_cache_timer);
     }
 }
 
