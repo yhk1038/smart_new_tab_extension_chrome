@@ -1,14 +1,5 @@
-_tt_ = 'J7CBxfHalt49OSHp27hblqK20c9PgwJ108nDHX/8Cts=';
-
-var per_sec = 1000;
-var per_min = per_sec * 60;
-var per_hour = per_min * 60;
-var per_day = per_hour * 24;
-// var server_address = 'http://localhost:3000';
-var server_address = 'http://52.79.83.67';
-
-var set_background_image_timer = 1 * per_min;
-var update_url_cache_timer = 30 * per_min;
+var interval_background_image = $interval_background_image;
+var update_url_cache_timer = $interval_update_photo_urls;
 
 $(document).ready(function () {
     var is_login = checkLogin();
@@ -41,10 +32,10 @@ $(document).ready(function () {
 
         if (e.keyCode === 13){
             $.ajax({
-                url: server_address+'/users',
+                url: $server_address+'/users',
                 method: 'post',
                 data: {
-                    authenticity_token: _tt_,
+                    authenticity_token: $auth_token,
                     user: {
                         name: value
                     }
@@ -160,7 +151,7 @@ function closeWallPaperProcess(appBtn) {
 function getWallPaperGalleries(){
     var user_id = window.localStorage.getItem('SNT_USER_ID');
     var call = $.ajax({
-        url: server_address + '/galleries',
+        url: $server_address + '/galleries',
         method: 'get',
         data: {
             user_id: user_id
@@ -206,10 +197,10 @@ function clickCheckBox(t) {
     if (is_taken){ // destroy 'UserGallery Record'
         // console.log('delete user_gallery');
         call = $.ajax({
-            url: server_address+'/user_galleries/delete',
+            url: $server_address+'/user_galleries/delete',
             method: 'post',
             data: {
-                authenticity_token: _tt_,
+                authenticity_token: $auth_token,
                 user_gallery: {
                     user_id: user_id,
                     gallery_id: gallery_id
@@ -240,10 +231,10 @@ function clickCheckBox(t) {
     else { // create 'UserGallery Record'
         // console.log('create user_gallery');
         call = $.ajax({
-            url: server_address+'/user_galleries',
+            url: $server_address+'/user_galleries',
             method: 'post',
             data: {
-                authenticity_token: _tt_,
+                authenticity_token: $auth_token,
                 user_gallery: {
                     user_id: user_id,
                     gallery_id: gallery_id
@@ -278,7 +269,7 @@ function wallPaperItemFormat(id, name, photo_count, followed){
         checked = 'checked';
         taken = 'taken';
     }
-    var request_url = server_address+'/set_file/'+id;
+    var request_url = $server_address+'/set_file/'+id;
     var dom = '' +
         '<div class="item-list" data-gallery="'+ id +'">' +
             '<p class="'+taken+'">' +
@@ -331,7 +322,7 @@ function setBackgroundImage(status) {
     $('.bgimg').css('background-image', url);
 
     if (status !== 'no-timer'){
-        setTimeout(function(){setBackgroundImage('default')}, set_background_image_timer);
+        setTimeout(function(){setBackgroundImage('default')}, interval_background_image);
     }
 }
 
@@ -345,7 +336,7 @@ function load_my_default_wallpapers(myFollowLists) {
         }
 
         $.ajax({
-            url: server_address+'/user_galleries/1',
+            url: $server_address+'/user_galleries/1',
             method: 'get',
             data: {
                 ids: arr,
@@ -415,7 +406,7 @@ function wpfileClickReBinding() {
         var file_input = document.getElementById(file_input_id);
 
         var formContainer = $(this).closest('.wallPaper_form');
-        formContainer.find('input[type="hidden"]').val(_tt_);
+        formContainer.find('input[type="hidden"]').val($auth_token);
 
         var gallery_slot = $(this).closest('.item-list');
         var gallery_id = gallery_slot.data('gallery');
@@ -464,7 +455,7 @@ function wpfileClickReBinding() {
                                 },
                                 complete: function(XMLHttpRequest, textStatus) {
                                     var data = XMLHttpRequest.responseJSON;
-                                    // // console.log(data.id, server_address+data.image.url);
+                                    // // console.log(data.id, $server_address+data.image.url);
                                     if (data){
                                         alert('저장 했어요!');
                                         openWallPaperProcess($('.app[data-target="wallPaper"]'));
@@ -494,10 +485,10 @@ function add_slot_request() {
 
     if (slot_name.length > 1){
         $.ajax({
-            url: server_address + '/galleries',
+            url: $server_address + '/galleries',
             method: 'post',
             data: {
-                authenticity_token: _tt_,
+                authenticity_token: $auth_token,
                 gallery: {
                     name: slot_name
                 },
