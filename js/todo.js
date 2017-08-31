@@ -75,12 +75,12 @@ function rebindTodoClickListener() {
             // 체크되지 않은 상태면, 체크를 해주고
             checkBox.attr('checked', 'checked');
             changed_item = {id: parseInt(item.attr('id').split('todo-item-')[1]), content: item.text().replace(' x ','').trim(), status: 'finished'};
-            update_toto_store(changed_item);
+            update_todo_store(changed_item);
         } else {
             // 체크된 상태면, 체크를 해제한다.
             checkBox.removeAttr('checked');
             changed_item = {id: parseInt(item.attr('id').split('todo-item-')[1]), content: item.text().replace(' x ','').trim(), status: false};
-            update_toto_store(changed_item);
+            update_todo_store(changed_item);
         }
         item.toggleClass('finished');
         bindProgressBar();
@@ -176,7 +176,7 @@ function set_todo_items(item) {
         window.localStorage.setItem('SNT_TD_ITEMS', json);
     }
 }
-function update_toto_store(item) {
+function update_todo_store(item) {
     var todo_lists = [];
     var json = [];
 

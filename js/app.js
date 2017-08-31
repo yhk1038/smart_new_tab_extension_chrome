@@ -9,7 +9,7 @@ $(document).ready(function () {
         set_user(user);
     }
 
-    set_timer();
+    $system_clock.run('time_stamp');
 
     setBackgroundImage('default');
     setTimeout(function(){update_cached_urls(true)}, update_url_cache_timer);
@@ -76,36 +76,6 @@ function set_user(user) {
     $('.stamp-qestion').text(msg);
     $('#apps-wrapper').show();
     $('.stamp-input').hide();
-}
-
-function set_timer() {
-    var height = window.screen.height;
-    var timeStamp = $('#time-stamp');
-    timeStamp.css('top', (height / 2 - 180)+'px');
-
-    tictok();
-}
-
-function tictok() {
-    var currentDate = new Date();
-    var currentHours = currentDate.getHours();
-    var currentMinute = currentDate.getMinutes();
-
-    if(currentHours > 12){
-        currentHours = currentHours - 12;
-    }
-
-    if(currentMinute < 10){
-        currentMinute = '0' + currentMinute;
-    }
-
-    var now = currentHours+':'+currentMinute;
-
-    var mother = document.getElementById('time-stamp');
-    var target = mother.getElementsByClassName('stamp-size')[0];
-    target.innerText = now;
-
-    setTimeout(function(){tictok()}, 1000);
 }
 
 function parseAction(el) {
