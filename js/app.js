@@ -1,6 +1,8 @@
 var interval_background_image = $interval_background_image;
 var update_url_cache_timer = $interval_update_photo_urls;
 
+var todo = new Todo();
+
 $(document).ready(function () {
     var is_login = checkLogin();
     var user;
@@ -18,13 +20,7 @@ $(document).ready(function () {
         var name = $(this).data('target');
         var action = parseAction($(this));
 
-        if (name === 'webToon'){
-            alert('열심히 준비중입니다!');
-        } else if (name === 'toDo'){
-            todo($(this));
-        } else if (name === 'wallPaper'){
-            wallPaper($(this), action);
-        }
+        app_router($(this), name, action);
     });
 
     $('.stamp-input').keyup(function (e) {
@@ -85,6 +81,16 @@ function parseAction(el) {
         result = 'close';
     }
     return result
+}
+
+function app_router(app_btn, app_name, action) {
+    if (app_name === 'webToon'){
+        alert('열심히 준비중입니다!');
+    } else if (app_name === 'toDo'){
+        todo.toggle(app_btn);
+    } else if (app_name === 'wallPaper'){
+        wallPaper(app_btn, action);
+    }
 }
 
 function wallPaper(appBtn, action) {

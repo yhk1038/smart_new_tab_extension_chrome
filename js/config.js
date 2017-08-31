@@ -12,3 +12,9 @@ $server_address = 'http://52.79.83.67'; // production env
  */
 
 $auth_token = 'J7CBxfHalt49OSHp27hblqK20c9PgwJ108nDHX/8Cts=';
+
+/*
+ * Storage init
+ */
+
+$storage = new AppStorage();
