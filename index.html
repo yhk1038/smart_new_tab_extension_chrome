@@ -1,0 +1,108 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>New Tab</title>
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/todo.css">
+    <script src="js/jq-3.2.1.js"></script>
+    <script src="js/jquery.form.js"></script>
+    <script type="text/javascript" src="js/app.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/app2.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/todo.js" charset="utf-8"></script>
+</head>
+<body>
+<div id="background-wrapper">
+    <div id="background-container" class="bgimg">
+        <!--<div id="background-image"></div>-->
+    </div>
+</div>
+<section id="main">
+    <!-- Apps -->
+    <div id="apps-wrapper" style="display: none;">
+        <div class="app" data-target="wallPaper">
+            <img src="imgs/icons/gallery.jpg" alt="배경">
+            <div class="app-name">배경</div>
+        </div>
+
+        <div class="app" data-target="toDo">
+            <img src="imgs/icons/todolist.png" alt="할 일">
+            <div class="app-name">할 일</div>
+        </div>
+
+        <div class="app" data-target="webToon">
+            <img src="imgs/icons/webtoon.jpg" alt="웹툰">
+            <div class="app-name">웹툰</div>
+        </div>
+    </div>
+
+    <!-- Timer -->
+    <div id="timer-wrapper">
+        <p id="time-stamp">
+            <span class="stamp-size"></span>
+            <span class="stamp-qestion">What is your name?</span>
+            <input class="stamp-input" type="text" data-name="username"/>
+        </p>
+    </div>
+</section>
+
+<div id="app-content">
+    <div id="wallPaper" class="app_box">
+        <div id="add-slot">
+            <h2>슬롯 추가</h2>
+            <div class="add-slot-body">
+                <p class="new_slot_name">슬롯 이름 <input type="text"></p>
+                <p style="display: none;">비공개 <input class="in_add_slot" type="checkbox"></p>
+                <a class="closeBtn">x</a>
+                <a class="confirmBtn">확인</a>
+                <div class="add-slot-private_group">
+                    <p>password <input type="password"></p>
+                    <p class="small_margin">비공개 슬롯에 참여할 사람들의 명단을 추가할 수도 있습니다.</p>
+                    <p class="small_margin">email list (enter key 로 구분)</p>
+                    <textarea placeholder="Put their emails here"></textarea>
+                </div>
+            </div>
+
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">배경 모음 <a class="card-closeBtn"><span>×</span></a></h2>
+            </div>
+            <div class="card-body card-padding">
+                <div class="item-list">
+                    <p><span class="checkBox">슬롯 추가하기</p>
+                </div>
+                <!--<div class="item-list">-->
+                <!--<p><label class="checkBox switch"><input type="checkbox"><span class="slider"></span></label>박우진 배경사진 모음 (1개)</p>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="todo-content">
+    <div id="todoList">
+        <div class="todo-header">
+            <p>to do list <span class="todo-today"></span></p>
+        </div>
+        <div class="todo-body">
+            <div class="todo-insert-wrapper">
+                <div class="todo-insert">
+                    <input type="text" class="todo-insert-input">
+                </div>
+            </div>
+
+            <!--<p class="todo-item"><input type="checkbox"> 수업 잘 듣기 <span class="todo-item-delete"> x </span></p>-->
+            <div class="todo-progressbar"><span id="todo-total">total 0</span>
+                <div class="meter orange">
+                    <!--<span style="width: 100%"><span>100%</span></span>-->
+                </div>
+            </div>
+        </div>
+        <div class="todo-bottom">
+            <p><span id="todo-hideBtn">▲</span></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

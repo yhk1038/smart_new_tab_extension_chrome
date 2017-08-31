@@ -1,0 +1,498 @@
+html,
+body { height: 100% }
+
+body{
+    margin: 0;
+}
+
+#background-wrapper{
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+}
+
+#background-wrapper #background-container{
+    width: 100%;
+    height: 100%;
+    -webkit-transition: background-image 750ms ease-in-out;
+    transition: background-image 750ms ease-in-out;
+}
+
+.bgimg{
+    background-color: transparent;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+section#main{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+}
+
+#apps-wrapper{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    text-align: center;
+    background: linear-gradient(
+            rgba(0,0,0,0.2) 20%,
+            rgba(0,0,0,0.1) 80%,
+            rgba(0,0,0,0) 100%);
+    z-index: 10;
+    opacity: 0.5;
+    transition: opacity 250ms ease;
+}
+#apps-wrapper:hover{
+    opacity: 1;
+    transition: opacity 250ms ease;
+}
+
+.app{
+    display: inline-block;
+    width: 5%;
+    height: auto;
+    margin: 0 15px;
+    cursor: pointer;
+}
+
+.app > img{
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 1px 5px #eaeaea;
+    transition: all 200ms ease;
+}
+.app:hover > img{
+    box-shadow: 0 1px 10px #fff;
+}
+
+.app > .app-name{
+    color: #d3d3d3;
+    font-size: 16px;
+    margin-top: 10px;
+    text-shadow: 1px 1px 3px #333;
+    transition: all 200ms ease;
+}
+.app:hover > .app-name{
+    color: #ffffff;
+}
+
+
+/*
+ * Timer
+ */
+#timer-wrapper{
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    text-align: center;
+    background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.1) 20%, rgba(0,0,0,0.15) 80%, rgba(0,0,0,0) 100%);
+}
+
+#time-stamp {
+    color: #fff;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+#time-stamp .stamp-size{
+    font-size: 170px !important;
+    font-weight: 500;
+}
+#time-stamp .stamp-qestion{
+    font-size: 55px;
+    font-weight: 500;
+    display: block;
+    line-height: 0.3;
+}
+#time-stamp .stamp-input{
+    background: none;
+    border: none;
+    border-bottom: 2px solid #fff;
+    width: 400px;
+    font-size: 45px;
+    color: #fff;
+    padding: 10px;
+    margin-top: 5%;
+}
+#time-stamp .stamp-input:focus,
+#time-stamp .stamp-input:active,
+#time-stamp .stamp-input{
+    outline-width: 0; !important;
+
+}
+
+/*
+ * Wall Paper
+ */
+#app-content{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    height: 75%;
+    opacity: 0;
+    transition: opacity 350ms ease;
+}
+#app-content.active{
+    opacity: 1;
+    z-index: 10;
+    transition: opacity 350ms ease;
+}
+#app-content.active > .app_box{
+    opacity: 1;
+    transition: opacity 350ms ease;
+}
+
+.app_box{
+    opacity: 0;
+    min-width: 400px;
+    max-width: 90%;
+    width: 800px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    transition: opacity 350ms ease;
+}
+
+.card {
+    box-shadow: 0 0 9px #d3d3d3;
+    opacity: 1;
+}
+
+.card-header{
+    display: flow-root;
+    background-color: #E91E63;
+    padding: 15px 30px;
+    border-bottom: 2px solid rgba(204, 204, 204, 0.5);
+}
+
+.card-title{
+    margin: 0;
+    margin-top: 10px;
+    color: #e6e6e6;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.card-closeBtn{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #fff;
+    color: rgb(89, 79, 190);
+    border-radius: 3px;
+    box-shadow: 2px 4px 5px #666;
+    cursor: pointer;
+    text-align: center;
+    opacity: 0.9;
+    transition: opacity 250ms ease;
+}
+.card-closeBtn:hover{
+    opacity: 1;
+}
+.card-closeBtn > span{
+    font-size: 22px;
+    position: relative;
+    top: 6px;
+}
+
+.card-body{
+    background: rgba(255, 255, 255, 0.9);
+    min-height: 376px;
+    max-height: 440px;
+    overflow-y: scroll;
+}
+
+.card-padding{
+    padding: 45px;
+}
+
+
+
+.item-list{
+    margin: 20px 60px;
+}
+.item-list > p{
+    margin: 0;
+    padding: 18px 30px;
+    background: rgba(106, 85, 255, 0.7);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 2px 2px 3px #666;
+    transition: all 300ms ease;
+}
+.item-list > p:hover{
+    background: rgba(106, 85, 255, 1);
+}
+.item-list > p.taken{
+    background: rgb(89, 79, 190);
+}
+.item-list > p.taken:hover{
+    background: rgb(75, 75, 145);
+}
+.item-list > p:before{
+    /*content: '+';*/
+    position: absolute;
+    right: 70px;
+    width: 17px;
+    padding: 3px 9px;
+    height: 30px;
+    background: #ffffff;
+    box-shadow: 1px 1px 5px #666;
+    border-radius: 100%;
+    color: #684ab5;
+    font-size: 30px;
+}
+
+.item-list .checkBox{
+    float: right;
+    font-size: 14px;
+    font-weight: 400;
+}
+.item-list .checkBox > input{
+    position: relative;
+    top: -1px;
+}
+
+.item-list .insert_wp_file-label,
+.item-list .insert_wp_slot-label{
+    width: 54px;
+    height: 54px;
+    margin-top: -55px;
+    margin-right: -60px;
+    float: right;
+    background: rgb(147, 134, 254);
+    display: inline-block;
+    box-shadow: 1px 2px 5px #666;
+    cursor: pointer;
+    transition: all 200ms ease;
+}
+.item-list .insert_wp_file-label:hover,
+.item-list .insert_wp_slot-label:hover{
+    background: rgb(89, 79, 190)
+}
+.item-list .insert_wp_file-label:before,
+.item-list .insert_wp_slot-label:before{
+    content: '+';
+    color: #fff;
+    font-size: 36px;
+    font-weight: bold;
+    position: relative;
+    top: 4px;
+    left: 17px;
+    transition: text-shadow 200ms ease;
+}
+.item-list .insert_wp_file-label:hover:before,
+.item-list .insert_wp_slot-label:hover:before{
+    text-shadow: 1px 1px 3px #444;
+}
+.item-list .insert_wp_file-label input[type='file']{
+    display: none;
+}
+
+/*
+ * The switch - the box around the slider
+ */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    top: -7px;
+    right: -10px;
+    cursor: pointer;
+}
+.switch:before{
+    content: 'ON OFF';
+    font-size: 12px;
+    font-weight: bold;
+    position: absolute;
+    z-index: 1;
+    top: 9px;
+    left: 10px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 25px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+
+
+#add-slot{
+    position: absolute;
+    z-index: 11;
+    min-width: 400px;
+    width: 50%;
+    min-height: 250px;
+    max-height: 60%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 10% auto auto;
+    background: rgba(36, 32, 62, 0.9);
+    border-radius: 10px;
+    color: #ffffff;
+    display: none;
+}
+#add-slot.open{
+    display: block;
+}
+#add-slot > h2{
+    padding-left: 30px;
+    margin-bottom: 30px;
+}
+#add-slot .add-slot-body{
+    font-size: 12px;
+    padding: 0 30px;
+    /*display: none;*/
+    display: block;
+}
+#add-slot.private .add-slot-body{
+    display: block;
+}
+#add-slot .add-slot-body p{
+    text-transform: capitalize;
+    margin-bottom: 22px;
+}
+#add-slot .add-slot-body p input{
+    width: 200px;
+    float: right;
+    right: 70px;
+    position: relative;
+    top: -3px;
+}
+#add-slot .add-slot-body p input[type='text'],
+#add-slot .add-slot-body p input[type='password']{
+    background: none;
+    border: 0;
+    border-bottom: 1px solid #fff;
+    padding: 3px 1px 5px;
+    top: -6px;
+    color: #fff;
+    outline: none;
+}
+#add-slot .add-slot-body p.small_margin{
+    margin: 5px 0;
+}
+#add-slot .add-slot-body .add-slot-private_group{
+    display: none;
+}
+#add-slot .add-slot-body .add-slot-private_group textarea{
+    width: 100%;
+    background: rgba(0, 0, 0, 0);
+    border: 0;
+    border-bottom: 1px solid #fff;
+    color: #fff;
+    font-size: 18px;
+    outline: none;
+    height: -webkit-fill-available;
+    max-height: 135px;
+    overflow-y: auto;
+}
+
+#add-slot .closeBtn{
+    color: #ffffff;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+}
+
+#add-slot .confirmBtn{
+    width: 30px;
+    height: 18px;
+    background: #ffffff;
+    color: #2e2a51;
+    font-weight: 600;
+    position: absolute;
+    right: 15px;
+    bottom: 20px;
+    font-size: 14px;
+    text-align: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    box-shadow: 1px 2px 5px #999;
+    border-radius: 2px;
+}
+
+#add-slot .new_slot_name{
+    margin-top: 100px;
+}
