@@ -1,6 +1,10 @@
 
 function AppStorage() {
     this.key = {
+        user_id: 'SNT_USER_ID',
+        user_name: 'SNT_USER_NAME',
+        user_email: 'SNT_USER_EMAIL',
+        wallpaper: 'SNT_WP_FollowLists',
         todo: 'SNT_TD_ITEMS'
     }
 }
