@@ -48,8 +48,12 @@
     <div id="timer-wrapper">
         <p id="time-stamp">
             <span class="stamp-size"></span>
-            <span class="stamp-qestion">What is your name?</span>
-            <input class="stamp-input" type="text" data-name="username"/>
+
+            <span class="stamp-qestion user_name">What is your name?</span>
+            <input class="stamp-input user_name" data-tag="name"/>
+
+            <span class="stamp-qestion user_email" style="display: none;">Hi <span class="name_point"></span>, What is your Best Email?</span>
+            <input class="stamp-input user_email" data-name="email" style="display: none;"/>
         </p>
     </div>
 </section>
@@ -93,10 +97,20 @@
                 </div>
             </div>
 
-            <!--<p class="todo-item"><input type="checkbox"> 수업 잘 듣기 <span class="todo-item-delete"> x </span></p>-->
+            <!-- To-do item format --
+            <p class="to\do-item {.finished}" id="to\do-item-{item.id}">
+                <input type="checkbox" {'checked'}>
+                수업 잘 듣기
+                <span class="to\do-item-delete" id="to\do-item-delete-{item.id}"> x </span>
+            </p>
+            ...
+            -->
+
             <div class="todo-progressbar"><span id="todo-total">total 0</span>
                 <div class="meter orange">
-                    <!--<span style="width: 100%"><span>100%</span></span>-->
+                    <!-- progress bar format --
+                    <span style="width: {'100%'}"><span>{'100%'}</span></span>
+                    -->
                 </div>
             </div>
         </div>

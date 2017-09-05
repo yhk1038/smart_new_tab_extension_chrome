@@ -542,7 +542,7 @@ WallPaper.prototype.storage = function (label, method, item) {
         }
 
         /*
-         * Update
+         * Update (void, 독립 실행 함수)
          */
         else if (method === 'update') /* 서버와 Storage 를 싱크함. 페이지 로딩이 완료되면 최초 1회 호출 */
         {   // 스토리지의 user_gallery 데이터들을 서버에 동기화

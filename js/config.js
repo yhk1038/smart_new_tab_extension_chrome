@@ -18,6 +18,13 @@ $server_routes = {
         method: 'post'
     },
 
+    update_user: {                                          // 회원 수정
+        path: function (id) { // 수정할 회원 id
+            return ($server_address+'/users/'+id)
+        },
+        method: 'put'
+    },
+
     index_gallery: {                                        // 최신 슬롯 목록을 로딩할 때 사용
         path: $server_address+'/galleries',
         method: 'get'
