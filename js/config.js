@@ -43,6 +43,11 @@ $server_routes = {
         method: 'post'
     },
 
+    sync_user_gallery: {                                    // 소위 팔로우 리스트 동기화
+        path: $server_address+'/user_galleries/sync',
+        method: 'post'
+    },
+
     photo_file_uploader: {                                  // 개별 슬롯에 이미지 추가
         path: function (id) { // 소속 gallery 의 id
             return ($server_address+'/set_file/' + id)

@@ -333,7 +333,7 @@ WallPaper.prototype.slot_switch_trigger = function (t) {
 
     var call;
     if (is_taken){ // destroy 'UserGallery Record'
-        console.log('delete user_gallery');
+        // console.log('delete user_gallery');
         call = $.ajax({
             url: $server_routes.destroy_user_gallery.path,
             method: $server_routes.destroy_user_gallery.method,
@@ -528,7 +528,7 @@ WallPaper.prototype.storage = function (label, method, item) {
         else if (method === 'create' && item)
         {   // Post '/user_galleries'
             item = cls.record_scheme(item);
-            items = $wallpaper.storage('user_gallery', 'index');
+            items = cls.storage('user_gallery', 'index');
             items.push(item);
             window.localStorage.setItem($storage.key.wallpaper, JSON.stringify(items));
 
@@ -544,8 +544,38 @@ WallPaper.prototype.storage = function (label, method, item) {
         /*
          * Update
          */
-        else if (method === 'update' && item)
-        {   //
+        else if (method === 'update') /* 서버와 Storage 를 싱크함. 페이지 로딩이 완료되면 최초 1회 호출 */
+        {   // 스토리지의 user_gallery 데이터들을 서버에 동기화
+            // 일치하지 않으면, 서버에서 내 계정에 client 를 기준으로 레코드 강제 생성하는 방식
+            // 그리고 나서 반환된 내 계정의 user_gallery 들로 스토리지를 리셋
+            items = cls.storage('user_gallery', 'index');
+            arr = []; arr2 = [];
+            var user_id = window.localStorage.getItem($storage.key.user_id);
+
+            // 회원가입이 되어있는 user 에 한해 실시
+            if (user_id){
+                $.each(items, function (i, client_item) {
+                    var id = client_item.id;
+                    arr.push(id);
+                });
+
+                $.ajax({
+                    url: $server_routes.sync_user_gallery.path,
+                    method: $server_routes.sync_user_gallery.method,
+                    data: {
+                        authenticity_token: $auth_token,
+                        ids: arr,
+                        user_id: user_id
+                    }
+                }).done(function (data) {
+                    $.each(data, function (j, n_item) {
+                        n_item = cls.record_scheme(n_item);
+                        arr2.push(n_item);
+                    });
+                    window.localStorage.setItem($storage.key.wallpaper, JSON.stringify(arr2));
+                });
+            }
+
         }
 
         /*
@@ -554,7 +584,7 @@ WallPaper.prototype.storage = function (label, method, item) {
         else if (method === 'destroy' && item) /* 여기서 item 은 items Array 를 받아온다! */
         {   //
             var d_items = item;
-            items = $wallpaper.storage('user_gallery', 'index');
+            items = cls.storage('user_gallery', 'index');
 
             $.each(d_items, function (i, d_item) {
                 var obj = cls.record_scheme(d_item);

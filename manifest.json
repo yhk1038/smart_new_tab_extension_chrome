@@ -3,10 +3,13 @@
 
   "name": "Smart New Tab",
   "description": "새 탭의 배경을 스타들이나 커플사진 처럼 내가 좋아하는 고화질 이미지로 바꿔보세요. To do list 등 그 외 다양한 기능들도 있어요",
-  "version": "0.2.2",
+  "version": "0.3.4",
 
   "browser_action": {
     "default_icon": "imgs/icons/icon2.png"
+  },
+  "icons": {
+    "128": "imgs/icons/icon2.png"
   },
 
   "chrome_url_overrides" : {

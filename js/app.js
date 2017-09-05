@@ -1,10 +1,10 @@
-var update_url_cache_timer = $interval_update_photo_urls;
-
 var todo = new Todo();
 var wp = new WallPaper();
 
 $(document).ready(function () {
     checkConnection();
+    wp.storage('user_gallery', 'update');
+
     var is_login = checkLogin();
     var user;
     if (is_login){
@@ -86,3 +86,7 @@ function app_router(app_btn, app_name) {
 /*
  ******* TEMP END
  */
+
+// Todo: 앱 설명 가다듬기 (patch)
+// Todo: 회원 가입 절차에 이메일 주소 입력 추가하기
+// Todo: 비밀 슬롯 기능 만들기
