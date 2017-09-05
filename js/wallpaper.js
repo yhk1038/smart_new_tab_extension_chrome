@@ -232,6 +232,7 @@ WallPaper.prototype.toggle_galleries_container = function (appBtn){
 // todo 그러나 커넥션 체크는 계속 하고, 커넥팅 되면 곧바로 배경화면을 로드 해줄 수 있게 고쳐야 한다.
 
 WallPaper.prototype.show_background_image = function (status) { // status: 'default' or 'no-timer'
+    // console.log('show background image called');
     var cls = this;
     var my_galleries = cls.storage('user_gallery', 'index');
     var imgPath = $default_img_path;
