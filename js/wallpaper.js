@@ -392,7 +392,8 @@ WallPaper.prototype.file_upload_manager = function (input_label) {
     var cls = this;
     var file_input_id = input_label.find('input:file').attr('id');
     var file_input = document.getElementById(file_input_id);
-    var formContainer = $(this).closest('.wallPaper_form');
+    var formContainer = input_label.closest('.wallPaper_form');
+    // console.log("\n\n\n\n", input_label, file_input_id, file_input, formContainer, "\n\n\n\n");
 
     // authenticity token 을 주입
     formContainer.find('input[type="hidden"]').val($auth_token);
@@ -405,6 +406,7 @@ WallPaper.prototype.file_upload_manager = function (input_label) {
     var fileValue = $('#'+file_input_id).val().split('\\');
     var fileName = fileValue[fileValue.length-1];
 
+    // console.log(fileName, file);
     if (file) {
 
         // create reader
@@ -423,13 +425,17 @@ WallPaper.prototype.file_upload_manager = function (input_label) {
                         var form = formContainer[0];
                         var formData = new FormData(form);
                         formData.append(fileName, file);
+                        // console.log(formContainer);
+                        // console.log('confirm', reader);
 
                         // 서버에 저장
                         formContainer.ajaxSubmit({
                             beforeSubmit: function(a,f,o) {
                                 o.dataType = 'json';
+                                // console.log(a, f, o);
                             },
-                            complete: function(XMLHttpRequest, textStatus) {
+                            success: function(XMLHttpRequest, textStatus) {
+                                // console.log(XMLHttpRequest, textStatus);
                                 var data = XMLHttpRequest.responseJSON;
                                 if (data){
                                     alert('저장 했어요!');
@@ -439,6 +445,9 @@ WallPaper.prototype.file_upload_manager = function (input_label) {
                                 }
 
                                 cls.build_template();
+                            },
+                            error: function (data) {
+                                console.log("\nerror break\n", data)
                             }
                         });
                     }
@@ -448,7 +457,7 @@ WallPaper.prototype.file_upload_manager = function (input_label) {
                         bg.css('background-image', original_bg);
                         cls.toggle_galleries_container($('.app[data-target="wallPaper"]'), 'open');
                     }
-                }, $interval_update_photo_preview
+                }, 2000 // $interval_update_photo_preview
             );
         };
     }
@@ -569,11 +578,12 @@ WallPaper.prototype.storage = function (label, method, item) {
                         user_id: user_id
                     }
                 }).done(function (data) {
-                    $.each(data, function (j, n_item) {
+                    $.each(data.galleries, function (j, n_item) {
                         n_item = cls.record_scheme(n_item);
                         arr2.push(n_item);
                     });
                     window.localStorage.setItem($storage.key.wallpaper, JSON.stringify(arr2));
+                    window.localStorage.setItem('SNT_cached_wallpapers_url', data.urls);
                 });
             }
 

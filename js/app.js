@@ -2,7 +2,7 @@ var todo = new Todo();
 var wp = new WallPaper();
 
 $(document).ready(function () {
-    checkConnection();
+    // checkConnection();
     wp.storage('user_gallery', 'update');
 
     var is_login = checkLogin();
