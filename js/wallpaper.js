@@ -110,7 +110,7 @@ function WallPaper() {
                     '<form id="wallPaper_form" class="wallPaper_form" action="'+request_url+'" data-remote="true" method="post" enctype="multipart/form-data">' +
                         '<input type="hidden" name="authenticity_token">' +
                         '<label class="insert_wp_file-label">' +
-                            '<input type="file" id="gallery_file_input-'+gallery.id+'" name="image_file">' +
+                            '<input type="file" id="gallery_file_input-'+gallery.id+'" class="multi" name="image_file[]" multiple>' +
                         '</label>' +
                     '</form>' +
                 '</div>'
@@ -506,70 +506,83 @@ WallPaper.prototype.slot_switch_trigger = function (t) {
 
 WallPaper.prototype.file_upload_manager = function (input_label) {
     var cls = this;
-    var file_input_id = input_label.find('input:file').attr('id');
-    var file_input = document.getElementById(file_input_id);
-    var formContainer = input_label.closest('.wallPaper_form');
-    // console.log("\n\n\n\n", input_label, file_input_id, file_input, formContainer, "\n\n\n\n");
+    var file_input_id   = input_label.find('input:file').attr('id');
+    var file_input      = document.getElementById(file_input_id);
+    var formContainer   = input_label.closest('.wallPaper_form');
 
     // authenticity token 을 주입
     formContainer.find('input[type="hidden"]').val($auth_token);
 
+    // 미리보기 실행 및 종료를 위한 준비
     var bg = $('.bgimg');
     var original_bg = bg.css('background-image');
 
     // file 오브젝트를 가져옴
-    var file = file_input.files[0];
-    var fileValue = $('#'+file_input_id).val().split('\\');
-    var fileName = fileValue[fileValue.length-1];
+    var file        = file_input.files[0];
+    var fileValue   = $('#'+file_input_id).val().split('\\');
+    var fileName    = fileValue[fileValue.length-1];
 
-    // console.log(fileName, file);
+
     if (file) {
 
         // create reader
         var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function(e) {
+
+            // 이미지 미리보기
             bg.css('background-image', 'url('+reader.result+')');
             cls.toggle_galleries_container($('.app'), 'close');
 
-            // browser completed reading file - display it
-            setTimeout(
-                function () {
-                    if (confirm('업로드 한 파일을 미리보기 하는 중!\n화질과 비율이 적합하다면 확인 버튼을 눌러 업로드!'))
+            // // browser completed reading file - display it
+            // setTimeout(
+            //     function () {
+                    if (confirm('확인 버튼을 누르면 업로드를 시작합니다!\n파일 갯수에 따라 업로드 시간이 늘어날 수 있어요\n완료 알림이 나타날 때 까지 잠시만 기다려주세요^b'))
                     {
                         // 데이터를 폼에 셋업
                         var form = formContainer[0];
                         var formData = new FormData(form);
                         formData.append(fileName, file);
-                        // console.log(formContainer);
-                        // console.log('confirm', reader);
+
+                        /*
+                         * Debugs
+                         */
+                        // console.log('form');            console.log(form);              console.log("\n\n");
+                        // console.log('fileName');        console.log(fileName);          console.log("\n\n");
+                        // console.log('file');            console.log(file);              console.log("\n\n");
+                        // console.log('files');           console.log(file_input.files);  console.log("\n\n");
+                        // console.log('formaData');       console.log(formData);          console.log("\n\n");
+                        // console.log('formContainer');   console.log(formContainer);
 
                         // 서버에 저장
                         formContainer.ajaxSubmit({
                             beforeSubmit: function(a,f,o) {
+                                console.log('data_array'); console.log(a);
+
+                                var count = 20;
+                                if ((a.length -1) > count){
+                                    alert('한 번에 올릴 수 있는 최대 파일 갯수 '+count+'개를 초과했습니다\n현재 선택된 파일은 '+ (a.length -1)+'개 입니다('+(a.length -1 - count)+'개 초과)');
+                                    return false
+                                }
                                 o.dataType = 'json';
-                                // console.log(a, f, o);
                             },
                             success: function(XMLHttpRequest, textStatus) {
-                                // console.log(XMLHttpRequest, textStatus);
                                 var data = XMLHttpRequest;
                                 if (data){
                                     alert('저장 했어요!');
-                                    // 로컬에 저장하고
-                                    // 캐시를 갱신한다
+                                    // 슬롯 목록을 다시 open 해서 후처리 과정을 완료한다.
                                     cls.toggle_galleries_container($('.app[data-target="wallPaper"]'), 'open');
 
                                     // 뷰어를 통한 업로드인 경우, 뷰어를 다시 연다.
                                     if (input_label.attr('class') === 'gallery-add_photo_btn'){
-                                        var gallery_id = file_input_id.split('gallery_file_input-')[1].split('-in_viewer')[0];
-                                        cls.open_viewer(gallery_id);
+                                        cls.open_viewer(file_input_id.split('gallery_file_input-')[1].split('-in_viewer')[0]); // open_viewer(gallery_id)
                                     }
                                 }
 
-                                cls.build_template();
+                                // cls.build_template(); // 아마도 불필요.
                             },
-                            error: function (data) {
-                                // console.log("\nerror break\n", data)
+                            error: function (XMLHttpRequest, textStatus) {
+                                console.log("\nerror break\n", XMLHttpRequest, '\n\n\n', textStatus);
                             }
                         });
                     }
@@ -579,8 +592,8 @@ WallPaper.prototype.file_upload_manager = function (input_label) {
                         bg.css('background-image', original_bg);
                         cls.toggle_galleries_container($('.app[data-target="wallPaper"]'), 'open');
                     }
-                }, 2000 // $interval_update_photo_preview
-            );
+                // }, 2000 // $interval_update_photo_preview
+            // );
         };
     }
 };

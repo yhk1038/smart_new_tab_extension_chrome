@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/todo.css">
 
-    <script src="js/jq-3.2.1.js"></script>
-    <script src="js/jquery.form.js"></script>
+    <script src="js/lib/jq-3.2.1.js"></script>
+    <script src="js/lib/jquery.form.js"></script>
 
     <script type="text/javascript" src="js/storage.js"></script>
     <script type="text/javascript" src="js/config.js"></script>
@@ -104,8 +104,9 @@
     <form action="" method="post" enctype="multipart/form-data" class="gallery_add_form wallPaper_form">
         <label class="gallery-add_photo_btn">
             add new photo
-            <input type="file" style="display: none;" id="gallery_file_input-{id}-in_viewer" name="image_file">
+            <input type="file" id="gallery_file_input-{id}-in_viewer" class="multi" name="image_file[]" multiple style="display: none;">
         </label>
+        <input type="hidden" name="authenticity_token">
     </form>
 </div>
 

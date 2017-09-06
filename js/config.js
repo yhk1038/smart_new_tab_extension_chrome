@@ -79,7 +79,7 @@ $server_routes = {
 
     photo_file_uploader: {                                  // 개별 슬롯에 이미지 추가
         path: function (id) { // 소속 gallery 의 id
-            return ($server_address+'/set_file/' + id +'?user_id='+window.localStorage.getItem($storage.key.user_id))
+            return ($server_address+'/set_files/' + id +'?user_id='+window.localStorage.getItem($storage.key.user_id))
         },
         method: 'post'
     }
