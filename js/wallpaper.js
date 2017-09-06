@@ -23,10 +23,12 @@ $(document).ready(function () {
     $('#add-slot').find('input[type=checkbox]').click(function () {
         if ($(this).is(':checked')){
             // 비밀 슬롯 활성화
+            $('#add-slot').find('.new_slot_name').addClass('secret_checked');
             $('.add-slot-private_group').fadeIn('fast');
         } else {
             // 비밀 슬롯 비활성화
             $('.add-slot-private_group').fadeOut('fast');
+            $('#add-slot').find('.new_slot_name').removeClass('secret_checked');
         }
     });
 
@@ -186,20 +188,43 @@ WallPaper.prototype.addslot_window_close = function () {
     addSlotGround.fadeOut('fast');
 };
 
+
+/*
+ * [UI element] 슬롯 추가 리퀘스트
+ *
+ */
+
 WallPaper.prototype.addslot_add_request = function () {
     var cls = this;
     var ground = $('.add-slot-body');
     var input = ground.find('.new_slot_name input');
     var slot_name = input.val();
 
-    if (slot_name.length > 1){
+    // white list 를 구성
+    var final_list = [];
+    if (ground.find('input[type=checkbox]').is(':checked')){
+        var white_list = ground.find('textarea').val();
+        white_list = white_list.replace(' ', '').replace(',','');
+        white_list = white_list.split(/\n/);
+        $.each(white_list, function (i, email) {
+            if (email.length > 5){
+                final_list.push(email);
+            }
+        });
+        final_list.push(window.localStorage.getItem($storage.key.user_email));
+    }
+    final_list = final_list.join(',');
+    console.log(final_list);
+
+    if (slot_name.length > 1){ // 슬롯 이름 길이 제한
         $.ajax({
             url: $server_routes.create_gallery.path,
             method: $server_routes.create_gallery.method,
             data: {
                 authenticity_token: $auth_token,
                 gallery: {
-                    name: slot_name
+                    name: slot_name,
+                    white_list: final_list
                 },
                 user_id: window.localStorage.getItem($storage.key.user_id)
             }
@@ -409,7 +434,6 @@ WallPaper.prototype.take_my_wallpapers = function (my_galleries) {
 };
 
 
-
 /*
  * [Method] 스위치 토글
  *
@@ -560,7 +584,6 @@ WallPaper.prototype.file_upload_manager = function (input_label) {
         };
     }
 };
-
 
 
 /*
