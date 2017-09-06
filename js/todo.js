@@ -127,7 +127,7 @@ Todo.prototype.build_template = function () {
     this.rebind();
     set_date();
 
-    $('#todo-hideBtn').click(function () {
+    $('#todo-hideBtn').unbind().click(function () {
         cls.toggle($('.app[data-target="toDo"]'));
     });
 };
