@@ -29,6 +29,11 @@ $(document).ready(function () {
             $('.add-slot-private_group').fadeOut('fast');
         }
     });
+
+    // 이미지 뷰어 종료
+    $('#wallPaper-viewer').find('.close').click(function () {
+        $wallpaper.close_viewer();
+    });
 });
 
 
@@ -108,6 +113,19 @@ function WallPaper() {
                     '</form>' +
                 '</div>'
             )
+        },
+
+        // 이미지 뷰어의 각 배경 이미지 섹션
+        viewer_photo: function (photo, url, author) {
+            return (
+                '<div class="preview-img" style="background-image: url('+url+');">' +
+                    '<div class="preview-img-info">' +
+                        '<p class="img-created_at">Upload : <span class="bind_point">'+photo.created_at.split("T")[0]+'</span></p>' +
+                        '<p class="img-created_at">By : <span class="bind_point">'+author.name+'</span></p>' +
+                        '<a class="delete_img-btn" data-id="'+photo.id+'">삭제</a>' +
+                    '</div>' +
+                '</div>'
+            )
         }
     };
 
@@ -183,7 +201,7 @@ WallPaper.prototype.addslot_add_request = function () {
                 gallery: {
                     name: slot_name
                 },
-                user_id: window.localStorage.getItem('SNT_USER_ID')
+                user_id: window.localStorage.getItem($storage.key.user_id)
             }
         }).done(function (data) {
             cls.build_template();
@@ -193,6 +211,65 @@ WallPaper.prototype.addslot_add_request = function () {
     } else {
         alert('이름은 한 글자 이상으로 지어주세요!');
     }
+};
+
+
+/*
+ * [UI element] 슬롯 포함된 이미지 뷰어 다이얼로그 종료
+ */
+
+WallPaper.prototype.close_viewer = function () {
+    $('#wallPaper-viewer').fadeOut(250);
+};
+
+/*
+ * [UI element] 슬롯 포함된 이미지 뷰어 다이얼로그 실행
+ */
+
+WallPaper.prototype.open_viewer = function (gallery_id) {
+    var cls = this;
+    var viewer = $('#wallPaper-viewer');
+    viewer.fadeIn(250);
+
+    $.ajax({
+        url: $server_routes.show_gallery.path(gallery_id),
+        method: $server_routes.show_gallery.method
+    }).done(function (data) {
+        var gallery = data[0];
+        var photos = data[1];
+        var users_count = data[2];
+        var data_set = data[3];
+        var dom = '';
+
+        viewer.find('.gallery_title').text(gallery.name);
+        viewer.find('.gallery_photo_count').text(photos.length);
+        viewer.find('.follower_count').text(users_count);
+
+        $.each(data_set, function (i, h) {
+            var photo = h.obj;
+            dom += cls.format.viewer_photo(photo, h.url, h.author);
+        });
+        viewer.find('.container').html(dom);
+
+        // rebind special buttons
+        // delete btn
+        $('.delete_img-btn').unbind().click(function () {
+            var photo_id = $(this).data('id');
+            var photo_section = $(this).closest('.preview-img');
+
+            if (confirm('정말 삭제할까요?')){
+                $.ajax({
+                    url: $server_routes.destroy_photo.path(photo_id),
+                    method: $server_routes.destroy_photo.method
+                }).done(function (data) {
+                    console.log(data);
+                    photo_section.slideUp();
+                }).fail(function (data) {
+                    alert('원인을 알 수 없는 오류로 인해 삭제에 실패 했습니다ㅠ');
+                });
+            }
+        });
+    });
 };
 
 
@@ -482,6 +559,7 @@ WallPaper.prototype.file_upload_manager = function (input_label) {
  *   Rebind 는 다음을 rebinding 한다:
  *      - toggle_switch onclick listener
  *      - add_file button onchange listener
+ *      - open_viewer onclick listener
  */
 
 WallPaper.prototype.rebind = function () {
@@ -500,6 +578,17 @@ WallPaper.prototype.rebind = function () {
      */
     $('.insert_wp_file-label').unbind().change(function () {
         cls.file_upload_manager($(this));
+    });
+    // }
+
+    /*
+     * open_viewer_trigger: function () {
+     */
+    $('.item-list p').unbind().click(function () {
+        var gallery_id = $(this).closest('.item-list').data('gallery');
+        if (gallery_id){
+            cls.open_viewer(gallery_id);
+        }
     });
     // }
 };

@@ -1,6 +1,14 @@
 // Config module
 
 /*
+ * Storage init
+ */
+
+$storage = new AppStorage();
+
+
+
+/*
  * Server
  */
 
@@ -30,6 +38,13 @@ $server_routes = {
         method: 'get'
     },
 
+    show_gallery: {                                         // 슬롯 상세보기 (포함된 이미지 리스트)
+        path: function (id) {
+            return ($server_address+'/galleries/' + id)
+        },
+        method: 'get'
+    },
+
     create_gallery: {                                       // 슬롯 추가
         path: $server_address+'/galleries',
         method: 'post'
@@ -55,9 +70,16 @@ $server_routes = {
         method: 'post'
     },
 
+    destroy_photo: {                                        // 이미지 삭제
+        path: function (id) {
+            return ($server_address+'/photos/' + id)
+        },
+        method: 'delete'
+    },
+
     photo_file_uploader: {                                  // 개별 슬롯에 이미지 추가
         path: function (id) { // 소속 gallery 의 id
-            return ($server_address+'/set_file/' + id)
+            return ($server_address+'/set_file/' + id +'?user_id='+window.localStorage.getItem($storage.key.user_id))
         },
         method: 'post'
     }
@@ -91,10 +113,3 @@ function checkConnection(){
  */
 
 $auth_token = 'J7CBxfHalt49OSHp27hblqK20c9PgwJ108nDHX/8Cts=';
-
-
-/*
- * Storage init
- */
-
-$storage = new AppStorage();

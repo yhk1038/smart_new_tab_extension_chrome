@@ -504,3 +504,130 @@ input:checked + .slider:before {
 #add-slot .new_slot_name{
     margin-top: 100px;
 }
+
+#wallPaper-viewer{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 11;
+}
+
+#wallPaper-viewer .close{
+    position: absolute;
+    right: 50px;
+    top: 25px;
+    color: #ffffff;
+    font-size: 65px;
+    cursor: pointer;
+    z-index: 13;
+}
+
+#wallPaper-viewer .container{
+    /*width: calc(100% - 100px);*/
+    width: 87%;
+    height: 87%;
+    position: absolute;
+    right: 0;
+    top: 13%;
+    z-index: 12;
+    overflow-y: auto;
+}
+
+#wallPaper-viewer .container .preview-img{
+    background-size: cover;
+    background-position: center;
+    width: 60%;
+    height: 60%;
+    display: inline-block;
+    margin: 10% 0 -5%;
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.25);
+}
+
+#wallPaper-viewer .container .preview-img .preview-img-info{
+    color: #fff;
+    float: right;
+    width: 250px;
+    margin-right: calc(-250px - 50px);
+    font-size: 18px;
+}
+
+.preview-img-info .img-created_at{
+    margin: 0 0 10px;
+}
+
+.preview-img-info .img-created_at .bind_point{
+    float: right;
+}
+
+.preview-img-info .delete_img-btn{
+    width: 65px;
+    height: 25px;
+    padding: 15px 30px;
+    margin-top: 20px;
+    text-align: center;
+    float: right;
+    cursor: pointer;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    transition: all 200ms ease;
+}
+.preview-img-info .delete_img-btn:hover{
+    background: #e6234b;
+}
+
+#wallPaper-viewer .gallery_info{
+    color: #fff;
+    font-size: 25px;
+    margin: 50px 0 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+#wallPaper-viewer .gallery-add_photo_btn{
+    color: #2196F3;
+    font-size: 18px;
+    text-decoration: none;
+    padding: 6px 12px;
+    position: absolute;
+    top: 15%;
+    left: 12%;
+    cursor: pointer;
+    z-index: 13;
+    text-align: center;
+    line-height: 2;
+    text-transform: capitalize;
+    transition: all 200ms ease;
+}
+#wallPaper-viewer .gallery-add_photo_btn:hover{
+    background: #fff;
+}
+
+
+/*
+ * Custom Scroll bar Style
+ */
+
+/*
+ *  STYLE 3
+ */
+
+#style-3::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar
+{
+    width: 6px;
+    background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar-thumb
+{
+    background-color: #000000;
+}
