@@ -91,17 +91,22 @@
         '<span class="gallery_title"></span>'의 이미지 <span class="gallery_photo_count"></span>개. (<span class="follower_count"></span> 명 구독중)
     </p>
     <div class="container" id="style-3">
+        <!--
         <div class="preview-img" style="background-image: url(https://s3.ap-northeast-2.amazonaws.com/snt123/uploads/3/sinb1.jpg);">
             <div class="preview-img-info">
                 <p class="img-created_at">Upload : <span class="bind_point"></span></p>
                 <a class="delete_img-btn" onclick="">삭제</a>
             </div>
         </div>
-        <div class="preview-img" style="background-image: url(https://s3.ap-northeast-2.amazonaws.com/snt123/uploads/3/sinb1.jpg);">
-
-        </div>
+        ...
+        --->
     </div>
-    <a class="gallery-add_photo_btn">add new photo</a>
+    <form action="" method="post" enctype="multipart/form-data" class="gallery_add_form wallPaper_form">
+        <label class="gallery-add_photo_btn">
+            add new photo
+            <input type="file" style="display: none;" id="gallery_file_input-{id}-in_viewer" name="image_file">
+        </label>
+    </form>
 </div>
 
 <div id="todo-content">

@@ -251,8 +251,23 @@ WallPaper.prototype.open_viewer = function (gallery_id) {
         });
         viewer.find('.container').html(dom);
 
-        // rebind special buttons
-        // delete btn
+        /*
+         * Filling form data
+         */
+        $('.gallery_add_form').attr('action', $server_routes.photo_file_uploader.path(gallery.id));
+        $('.gallery-add_photo_btn').unbind().change(function () {
+            var label = $(this);
+            label.find('input:file').attr('id', 'gallery_file_input-'+gallery.id+'-in_viewer');
+            cls.file_upload_manager(label);
+            $('#wallPaper-viewer').fadeOut(250);
+        });
+
+
+        /*
+         * rebind special buttons
+         */
+
+        // delete btn rebind
         $('.delete_img-btn').unbind().click(function () {
             var photo_id = $(this).data('id');
             var photo_section = $(this).closest('.preview-img');
@@ -262,7 +277,7 @@ WallPaper.prototype.open_viewer = function (gallery_id) {
                     url: $server_routes.destroy_photo.path(photo_id),
                     method: $server_routes.destroy_photo.method
                 }).done(function (data) {
-                    console.log(data);
+                    // console.log(data);
                     photo_section.slideUp();
                 }).fail(function (data) {
                     alert('원인을 알 수 없는 오류로 인해 삭제에 실패 했습니다ㅠ');
@@ -513,18 +528,24 @@ WallPaper.prototype.file_upload_manager = function (input_label) {
                             },
                             success: function(XMLHttpRequest, textStatus) {
                                 // console.log(XMLHttpRequest, textStatus);
-                                var data = XMLHttpRequest.responseJSON;
+                                var data = XMLHttpRequest;
                                 if (data){
                                     alert('저장 했어요!');
                                     // 로컬에 저장하고
                                     // 캐시를 갱신한다
                                     cls.toggle_galleries_container($('.app[data-target="wallPaper"]'), 'open');
+
+                                    // 뷰어를 통한 업로드인 경우, 뷰어를 다시 연다.
+                                    if (input_label.attr('class') === 'gallery-add_photo_btn'){
+                                        var gallery_id = file_input_id.split('gallery_file_input-')[1].split('-in_viewer')[0];
+                                        cls.open_viewer(gallery_id);
+                                    }
                                 }
 
                                 cls.build_template();
                             },
                             error: function (data) {
-                                console.log("\nerror break\n", data)
+                                // console.log("\nerror break\n", data)
                             }
                         });
                     }
@@ -567,8 +588,9 @@ WallPaper.prototype.rebind = function () {
     /*
      * switch_toggle: function () {
      */
-    $('input[type="checkbox"]:not(".in_add_slot")').unbind().click(function () {
-        cls.slot_switch_trigger($(this));
+    $('.switch').unbind().click(function (e) {
+        cls.slot_switch_trigger($(this).find('input[type="checkbox"]'));
+        e.stopPropagation();
     });
     // },
 
